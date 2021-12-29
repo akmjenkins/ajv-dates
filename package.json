@@ -25,7 +25,6 @@
     "build": "yarn clean && yarn babel",
     "babel": "babel src -d build --copy-files --no-copy-ignored",
     "lint": "eslint src",
-    "test:ci": "jest --coverage --coverageReporters=text-lcov | coveralls",
     "test": "jest"
   },
   "author": "Adam Jenkins",
