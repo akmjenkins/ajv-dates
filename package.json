@@ -1,0 +1,63 @@
+{
+  "name": "ajv-dates",
+  "version": "1.0.0",
+  "description": "Intuitive JSON Schema Date Validation",
+  "main": "build/index.js",
+  "sideEffects": false,
+  "files": [
+    "build"
+  ],
+  "keywords": [
+    "ajv",
+    "json-schema",
+    "dates"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akmjenkins/ajv-dates"
+  },
+  "bugs": {
+    "url": "https://github.com/akmjenkins/ajv-dates/issues"
+  },
+  "scripts": {
+    "prepublishOnly": "yarn test && yarn build",
+    "clean": "rimraf build",
+    "build": "yarn clean && yarn babel",
+    "babel": "babel src -d build --copy-files --no-copy-ignored",
+    "lint": "eslint src",
+    "test:ci": "jest --coverage --coverageReporters=text-lcov | coveralls",
+    "test": "jest"
+  },
+  "author": "Adam Jenkins",
+  "license": "ISC",
+  "peerDependencies": {
+    "ajv": "^8.0.0"
+  },
+  "optionalDependencies": {
+    "sugar-date": "^2.0.6"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.14.5",
+    "@babel/core": "^7.10.2",
+    "@babel/plugin-transform-runtime": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "@types/jest": "^26.0.15",
+    "@typescript-eslint/eslint-plugin": "^4.30.0",
+    "@typescript-eslint/parser": "^4.30.0",
+    "ajv": "^8.0.0",
+    "ajv-formats": "^2.1.1",
+    "babel-eslint": "^10.0.3",
+    "babel-jest": "^26.6.3",
+    "babel-plugin-add-module-exports": "^1.0.4",
+    "coveralls": "^3.1.0",
+    "eslint": "^7.12.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.0.0",
+    "prettier": "^2.1.2",
+    "ts-jest": "^26.0.0",
+    "typescript": "4.4.4"
+  }
+}
