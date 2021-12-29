@@ -174,7 +174,7 @@ import { dates } from 'ajv-dates';
 const instance = dates(new Ajv(), { parser: SDate.create })
 ```
 
-The super power you get is being able to encode relative dates in a schema:
+The super power you get is **being able to encode relative dates in a schema**:
 
 
 ```js
