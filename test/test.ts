@@ -1,16 +1,14 @@
 import Ajv, { _ } from 'ajv';
-// eslint-disable-next-line
-// @ts-ignore
-import { Date as SDate } from 'sugar-date';
+import { parseDate } from 'chrono-node';
 import { dates } from '../src';
 
 describe('test', () => {
-  const today = SDate.create('today');
-  const yesterday = SDate.create('yesterday');
-  const tomorrow = SDate.create('tomorrow');
+  const today = parseDate('today');
+  const yesterday = parseDate('yesterday');
+  const tomorrow = parseDate('tomorrow');
 
-  const saturday = SDate.create('Saturday');
-  const monday = SDate.create('Monday');
+  const saturday = parseDate('Saturday');
+  const monday = parseDate('Monday');
 
   const todayString = today.toISOString();
   const tomorrowString = tomorrow.toISOString();
@@ -154,13 +152,3 @@ describe('test', () => {
     }
   });
 });
-
-const f = dates(new Ajv(), { parser: SDate.create });
-f.validate(
-  {
-    type: 'string',
-    isAfter: '2 weeks from now',
-  },
-  'today',
-);
-console.log(f.errors);

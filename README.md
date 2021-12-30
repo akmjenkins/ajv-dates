@@ -133,7 +133,7 @@ type Options = {
 
 #### `parser = (val) => new Date(val)`
 
-The parser accepts any value and tries to parse it to a Date (or a unix timestamp). It is used to parse both the subject being evaluated and the arguments given to the keyword. As shown [below](#sugar-date), the ability to specify a parser allows some really great features to be unlocked.
+The parser accepts any value and tries to parse it to a Date (or a unix timestamp). It is used to parse both the subject being evaluated and the arguments given to the keyword. As shown [below](#parser), the ability to specify a parser allows some really great features to be unlocked.
 
 
 #### `keywordMap = Partial<Record<Keyword,string>>`
@@ -159,34 +159,42 @@ instance.validate({
 
 
 
-## Sugar Date
+## Parser
 
-[Sugar Date](https://sugarjs.com/dates/) gives your validators super powers. You can use relative date strings in your schemas (or as your subjects, for that matter).
+Smart date parsers that can parse natural language relative strings into timestamps allow you to encode relative date logic into your schemas.
 
-It's as easy as:
+Two great options (tested with `ajv-dates`) are:
+
+- The older, but still incredibly powerful and relevant [Sugar Date](https://sugarjs.com/dates/)
+- The more modern [chrono-node](https://www.npmjs.com/package/chrono-node)
+
+
 
 ```js
-import { Date as SDate } from 'sugar-date'
 import Ajv from 'ajv';
 import { dates } from 'ajv-dates';
 
+import { Date as SDate } from 'sugar-date'
+import { parseDate } from 'chrono-node';
 
+// sugardate
 const instance = dates(new Ajv(), { parser: SDate.create })
+
+// chrono
+const instance = dates(new Ajv(), { parser: parseDate })
 ```
 
-The super power you get is **being able to encode relative dates in a schema**:
+
+Here's what the super power looks like:
 
 
 ```js
-import { Date as SDate } from 'sugar-date'
-
 const schema = {
     type: 'string',
     isAfter: '30 days ago'
 }
 
-const instance = dates(new Ajv(), { parser: SDate.create })
-
+const instance = dates(new Ajv(), { parser: /* your chosen natural language date parser */ })
 const today = (new Date()).toISOString();
 
 instance.validate(

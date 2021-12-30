@@ -2,9 +2,21 @@ import Ajv from 'ajv';
 // eslint-disable-next-line
 // @ts-ignore
 import { Date as SDate } from 'sugar-date';
+import { parseDate } from 'chrono-node';
 import { dates } from '../src';
 
 describe('test with sugar date as parser', () => {
+  const parsers = [
+    {
+      name: 'sugar',
+      parser: SDate.create,
+    },
+    {
+      name: 'chrono',
+      parser: parseDate,
+    },
+  ];
+
   const tests = [
     {
       keyword: 'isAfter',
@@ -110,19 +122,21 @@ describe('test with sugar date as parser', () => {
     },
   ];
 
-  tests.forEach(({ keyword, tests }) => {
-    const runTest = (instance, { arg, errors = null, subject, keyword }) => {
-      instance.validate({ type: 'string', [keyword]: arg }, subject);
-      errors
-        ? expect(instance.errors).toContainEqual(errors)
-        : expect(instance.errors).toBeNull();
-    };
+  parsers.forEach(({ name, parser }) => {
+    tests.forEach(({ keyword, tests }) => {
+      const runTest = (instance, { arg, errors = null, subject, keyword }) => {
+        instance.validate({ type: 'string', [keyword]: arg }, subject);
+        errors
+          ? expect(instance.errors).toContainEqual(errors)
+          : expect(instance.errors).toBeNull();
+      };
 
-    it(`should work with ${keyword}`, () => {
-      tests.forEach((test) => {
-        runTest(dates(new Ajv(), { parser: SDate.create }), {
-          ...test,
-          keyword,
+      it(`should work with ${keyword} using parser ${name}`, () => {
+        tests.forEach((test) => {
+          runTest(dates(new Ajv(), { parser }), {
+            ...test,
+            keyword,
+          });
         });
       });
     });
