@@ -1,10 +1,22 @@
-import * as keywords from './keywords';
+import { isAfter } from './keywords/isAfter';
+import { isWeekday } from './keywords/isWeekday';
+import { isWeekend } from './keywords/isWeekend';
+import { isBefore } from './keywords/isBefore';
+import { isBetween } from './keywords/isBetween';
+
+const keywords = {
+  isAfter,
+  isWeekday,
+  isWeekend,
+  isBefore,
+  isBetween,
+};
 
 const defaultOptions = {
   parser: (val) => new Date(val),
 };
 
-export const dates = (instance, options = defaultOptions) => (
+const dates = (instance, options = defaultOptions) => (
   Object.entries(keywords).forEach(([keyword, def]) => {
     instance.addKeyword({
       keyword: options.keywordMap?.[keyword] || keyword,
@@ -13,3 +25,5 @@ export const dates = (instance, options = defaultOptions) => (
   }),
   instance
 );
+
+export default dates;

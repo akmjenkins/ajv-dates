@@ -9,4 +9,4 @@ type Options = {
   keywordMap?: Partial<KeywordMap>;
 };
 
-export function dates(instance: Ajv, options?: Options): Ajv;
+export default function dates(instance: Ajv, options?: Options): Ajv;

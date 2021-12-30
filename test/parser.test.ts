@@ -3,7 +3,13 @@ import Ajv from 'ajv';
 // @ts-ignore
 import { Date as SDate } from 'sugar-date';
 import { parseDate } from 'chrono-node';
-import { dates } from '../src';
+import dates from '../src';
+
+type Test = {
+  arg: any;
+  subject: string;
+  errors?: jest.Expect | null;
+};
 
 describe('test with sugar date as parser', () => {
   const parsers = [
@@ -124,7 +130,10 @@ describe('test with sugar date as parser', () => {
 
   parsers.forEach(({ name, parser }) => {
     tests.forEach(({ keyword, tests }) => {
-      const runTest = (instance, { arg, errors = null, subject, keyword }) => {
+      const runTest = (
+        instance: Ajv,
+        { arg, errors = null, subject, keyword }: Test & { keyword: string },
+      ) => {
         instance.validate({ type: 'string', [keyword]: arg }, subject);
         errors
           ? expect(instance.errors).toContainEqual(errors)

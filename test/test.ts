@@ -1,6 +1,12 @@
 import Ajv, { _ } from 'ajv';
 import { parseDate } from 'chrono-node';
-import { dates } from '../src';
+import dates from '../src';
+
+type Test = {
+  arg: any;
+  subject: string;
+  errors?: jest.Expect | null;
+};
 
 describe('test', () => {
   const today = parseDate('today');
@@ -127,7 +133,10 @@ describe('test', () => {
   ];
 
   tests.forEach(({ keyword, alternateKeyword, tests }) => {
-    const runTest = (instance, { arg, errors = null, subject, keyword }) => {
+    const runTest = (
+      instance: Ajv,
+      { arg, errors = null, subject, keyword }: Test & { keyword: string },
+    ) => {
       instance.validate({ type: 'string', [keyword]: arg }, subject);
       errors
         ? expect(instance.errors).toContainEqual(errors)

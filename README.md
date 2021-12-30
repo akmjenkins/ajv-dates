@@ -22,7 +22,7 @@ yarn add ajv-dates
 
 ```js
 import Ajv from 'ajv';
-import { dates } from 'ajv-dates';
+import dates from 'ajv-dates';
 
 const instance = dates(new Ajv());
 
@@ -120,7 +120,7 @@ instance.validate({
 
 ## API
 
-This library exports a single named function `dates`. It accepts an AJV instance and [options](#options).
+This library exports a default function that accepts an AJV instance and [options](#options).
 
 ### Options
 
@@ -172,7 +172,7 @@ Two great options (tested with `ajv-dates`) are:
 
 ```js
 import Ajv from 'ajv';
-import { dates } from 'ajv-dates';
+import dates from 'ajv-dates';
 
 import { Date as SDate } from 'sugar-date'
 import { parseDate } from 'chrono-node';
