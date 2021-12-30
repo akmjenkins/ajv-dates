@@ -7,8 +7,7 @@
 
 ## What's this?
 
-Good date validation has been conspicuously missing from the JSON schema spec. This adds some (configurable) keywords to [ajv](https://ajv.js.org/) to make date validation a snap. 
-
+Good date validation has been conspicuously missing from the JSON schema spec. `ajv-dates` adds a few (configurable) keywords to [ajv](https://ajv.js.org/) to make date validation a snap. 
 
 ## Getting Started
 
@@ -161,7 +160,7 @@ instance.validate({
 
 ## Parser
 
-Smart date parsers that can parse natural language relative strings into timestamps allow you to encode relative date logic into your schemas.
+Even with [ajv-formats](), there's still something missing with date validation - the difficulty to encode "now", for validation purposes, in a schema. Fortunately, by using a smart date parser that can parse natural language relative strings into timestamps, you can now encode relative date logic into your schemas.
 
 Two great options (tested with `ajv-dates`) are:
 
@@ -236,4 +235,4 @@ console.log(instance.errors);
 
 ## Contributing
 
-PRs welcome!
+Grab an issue, PRs welcome! 
