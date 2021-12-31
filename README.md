@@ -116,6 +116,58 @@ instance.validate({
 })
 ```
 
+## Bonus Keywords: times
+
+If you supply a [`parser`](#parser) you can also take advantage of our time keywords:
+
+```js
+import Ajv from 'ajv';
+import { date, times } from 'ajv-dates';
+import { parseDate } from 'chrono-node';
+
+const options = { parser: parseDate }
+const instance = times(dates(new Ajv(),options),options)
+```
+
+- [isTimeAfter](#isTimeAfter)
+- [isTimeBefore](#isTimeBefore)
+- [isTimeBetween](#isTimeBetween)
+
+`isTimeAfter`
+---
+
+```js
+instance.validate({
+    type: 'string',
+    isTimeAfter: '7:00pm',
+}, '6:30pm');
+
+// Error: Time must be after 7:00pm
+```
+
+`isTimeBefore`
+---
+
+```js
+instance.validate({
+    type: 'string',
+    isTimeBefore: '6:00pm',
+}, '6:30pm');
+
+// Error: Time must be before 6:00pm
+```
+
+`isTimeBetween`
+---
+
+```js
+instance.validate({
+    type: 'string',
+    isTimeBetween: ['7:00pm','10:00pm'],
+}, '6:30pm');
+
+// Error: Time must be between 7:00pm and 10:00pm
+```
 
 ## API
 

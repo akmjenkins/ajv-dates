@@ -16,3 +16,22 @@ export const parse = (subject, parser, createError, then) => {
     createError({ message: `Unable to parse date ${subject}` });
   }
 };
+
+const methods = [
+  'getFullYear',
+  'getMonth',
+  'getDate',
+  'getHours',
+  'getMinutes',
+  'getSeconds',
+  'getMilliseconds',
+];
+
+export const getPieces = (date, ...methods) => methods.map((m) => date[m]());
+
+export const cloneDate = (date, ...args) => {
+  return new Date(
+    ...methods.slice(0, methods.length - args.length).map((m) => date[m]()),
+    ...args,
+  );
+};

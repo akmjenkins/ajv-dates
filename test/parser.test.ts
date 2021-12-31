@@ -3,7 +3,7 @@ import Ajv from 'ajv';
 // @ts-ignore
 import { Date as SDate } from 'sugar-date';
 import { parseDate } from 'chrono-node';
-import dates from '../src';
+import { dates, times } from '../src';
 
 type Test = {
   arg: any;
@@ -37,6 +37,54 @@ describe('test with sugar date as parser', () => {
         {
           arg: 'yesterday',
           subject: 'today',
+        },
+      ],
+    },
+    {
+      keyword: 'isTimeBetween',
+      tests: [
+        {
+          arg: ['7:00pm', '10:00pm'],
+          subject: '7:30pm',
+        },
+        {
+          arg: ['7:00pm', '10:00pm'],
+          subject: '6:30pm',
+          errors: expect.objectContaining({
+            message: expect.stringMatching('Time must be between'),
+          }),
+        },
+      ],
+    },
+    {
+      keyword: 'isTimeAfter',
+      tests: [
+        {
+          arg: '7:00pm',
+          subject: '7:30pm',
+        },
+        {
+          arg: '7:00pm',
+          subject: '6:30pm',
+          errors: expect.objectContaining({
+            message: expect.stringMatching('Time must be after 7:00pm'),
+          }),
+        },
+      ],
+    },
+    {
+      keyword: 'isTimeBefore',
+      tests: [
+        {
+          arg: '7:00pm',
+          subject: '6:30pm',
+        },
+        {
+          arg: '7:00pm',
+          subject: '7:30pm',
+          errors: expect.objectContaining({
+            message: expect.stringMatching('Time must be before 7:00pm'),
+          }),
         },
       ],
     },
@@ -142,7 +190,7 @@ describe('test with sugar date as parser', () => {
 
       it(`should work with ${keyword} using parser ${name}`, () => {
         tests.forEach((test) => {
-          runTest(dates(new Ajv(), { parser }), {
+          runTest(times(dates(new Ajv(), { parser }), { parser }), {
             ...test,
             keyword,
           });
