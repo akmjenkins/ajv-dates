@@ -1,6 +1,6 @@
 {
   "name": "ajv-dates",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Intuitive JSON Schema Date Validation",
   "main": "build/index.js",
   "sideEffects": false,
