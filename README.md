@@ -1,6 +1,6 @@
 # ajv-dates
 
-[![npm version](https://img.shields.io/npm/v//ajv-dates.svg)](https://npmjs.org/package/ajv-dates)
+[![npm version](https://img.shields.io/npm/v/ajv-dates.svg)](https://npmjs.org/package/ajv-dates)
 [![Coverage Status](https://coveralls.io/repos/github/akmjenkins/ajv-dates/badge.svg)](https://coveralls.io/github/akmjenkins/ajv-dates)
 ![Build Status](https://github.com/akmjenkins/schema2/actions/workflows/main.yaml/badge.svg)
 [![Bundle Phobia](https://badgen.net/bundlephobia/minzip/ajv-dates)](https://bundlephobia.com/result?p=ajv-dates)
