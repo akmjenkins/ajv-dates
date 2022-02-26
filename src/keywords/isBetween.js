@@ -1,20 +1,13 @@
-import { createErrorCreator, parse, parseOrThrow } from './utils';
+import { createValidator } from './utils';
 
 export const isBetween = ({ parser }) => ({
   type: 'string',
   schemaType: 'array',
-  compile: ([lower, upper]) => {
-    const dLower = parseOrThrow(lower, parser);
-    const dUpper = parseOrThrow(upper, parser);
-
-    const validator = (subject) => {
-      const createError = createErrorCreator(validator);
-      return parse(subject, parser, createError, (parsed) => {
-        if (dLower < parsed && parsed < dUpper) return true;
-        createError({ message: `Date must be between ${lower} and ${upper}` });
-      });
-    };
-
-    return validator;
-  },
+  $data: true,
+  validate: createValidator(
+    parser,
+    ([dLower, dUpper], parsed, error, [lower, upper]) =>
+      (dLower < parsed && parsed < dUpper) ||
+      error({ message: `Date must be between ${lower} and ${upper}` }),
+  ),
 });

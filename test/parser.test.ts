@@ -190,10 +190,13 @@ describe('test with sugar date as parser', () => {
 
       it(`should work with ${keyword} using parser ${name}`, () => {
         tests.forEach((test) => {
-          runTest(times(dates(new Ajv(), { parser }), { parser }), {
-            ...test,
-            keyword,
-          });
+          runTest(
+            times(dates(new Ajv({ $data: true }), { parser }), { parser }),
+            {
+              ...test,
+              keyword,
+            },
+          );
         });
       });
     });

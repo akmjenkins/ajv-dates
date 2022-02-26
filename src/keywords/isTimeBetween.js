@@ -1,37 +1,32 @@
-import { cloneDate, createErrorCreator, parse, parseOrThrow } from './utils';
+import { cloneDate, createValidator } from './utils';
 
 export const isTimeBetween = ({ parser }) => ({
   type: 'string',
+  $data: true,
   schemaType: 'array',
-  compile: ([lower, upper]) => {
-    const dLower = parseOrThrow(lower, parser);
-    const dUpper = parseOrThrow(upper, parser);
+  validate: createValidator(
+    parser,
+    ([dLower, dUpper], subject, error, [lower, upper]) => {
+      const actualUpper = cloneDate(
+        subject,
+        dUpper.getHours(),
+        dUpper.getMinutes(),
+        dUpper.getSeconds(),
+        dUpper.getMilliseconds(),
+      );
 
-    const validator = (subject) => {
-      const createError = createErrorCreator(validator);
-      return parse(subject, parser, createError, (parsed) => {
-        const actualUpper = cloneDate(
-          parsed,
-          dUpper.getHours(),
-          dUpper.getMinutes(),
-          dUpper.getSeconds(),
-          dUpper.getMilliseconds(),
-        );
+      const actualLower = cloneDate(
+        subject,
+        dLower.getHours(),
+        dLower.getMinutes(),
+        dLower.getSeconds(),
+        dLower.getMilliseconds(),
+      );
 
-        const actualLower = cloneDate(
-          parsed,
-          dLower.getHours(),
-          dLower.getMinutes(),
-          dLower.getSeconds(),
-          dLower.getMilliseconds(),
-        );
-
-        if (actualLower < parsed && parsed < actualUpper) return true;
-
-        createError({ message: `Time must be between ${lower} and ${upper}` });
-      });
-    };
-
-    return validator;
-  },
+      return (
+        (actualLower < subject && subject < actualUpper) ||
+        error({ message: `Time must be between ${lower} and ${upper}` })
+      );
+    },
+  ),
 });
