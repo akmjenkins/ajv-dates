@@ -1,27 +1,19 @@
-import { cloneDate, createErrorCreator, parse, parseOrThrow } from './utils';
+import { cloneDate, createValidator } from './utils';
 
 export const isTimeAfter = ({ parser }) => ({
   type: 'string',
-  compile: (arg) => {
-    const against = parseOrThrow(arg, parser);
+  $data: true,
+  validate: createValidator(parser, (against, parsed, error, arg) => {
+    const actualAgainst = cloneDate(
+      parsed,
+      against.getHours(),
+      against.getMinutes(),
+      against.getSeconds(),
+      against.getMilliseconds(),
+    );
 
-    const validator = (subject) => {
-      const createError = createErrorCreator(validator);
-      return parse(subject, parser, createError, (parsed) => {
-        const actualAgainst = cloneDate(
-          parsed,
-          against.getHours(),
-          against.getMinutes(),
-          against.getSeconds(),
-          against.getMilliseconds(),
-        );
-
-        if (parsed > actualAgainst) return true;
-
-        createError({ message: `Time must be after ${arg}` });
-      });
-    };
-
-    return validator;
-  },
+    return (
+      parsed > actualAgainst || error({ message: `Time must be after ${arg}` })
+    );
+  }),
 });
